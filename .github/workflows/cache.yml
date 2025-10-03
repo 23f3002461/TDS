@@ -1,0 +1,24 @@
+name: CI with Cache
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: prime-cache-b1c461d
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/mydeps
+          key: cache-b1c461d
+
+      - name: Report cache status
+        run: echo "Cache hit: ${{ steps.cache.outputs.cache-hit }}"
