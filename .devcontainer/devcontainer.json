@@ -1,0 +1,20 @@
+{
+  "name": "ga2-0b70f5",
+  "image": "mcr.microsoft.com/devcontainers/universal:latest",
+  "features": {
+    "ghcr.io/devcontainers/features/python:1": {
+      // You can specify the version if needed, otherwise it uses the default
+      "version": "3.11" 
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "astral-sh.uv",
+        "ms-python.python"
+      ]
+    }
+  },
+  // Prime dependencies with 'uv' which is used by the 'astral-sh.uv' extension
+  "postCreateCommand": "uv pip install fastapi"
+}
