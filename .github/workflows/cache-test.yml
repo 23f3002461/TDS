@@ -24,7 +24,7 @@ jobs:
         run: echo "Cache hit: ${{ steps.cache-step.outputs.cache-hit }}"
 
       - name: Populate cache (first run)
-        if: steps.cache-step.outputs.cache-hit != 'true'
+        if: ${{ steps.cache-step.outputs.cache-hit != 'true' }}
         run: |
           mkdir -p ~/.cache/my-dependencies
           echo "Cached at $(date)" > ~/.cache/my-dependencies/info.txt
