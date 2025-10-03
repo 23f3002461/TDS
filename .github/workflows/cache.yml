@@ -2,7 +2,8 @@ name: CI with Cache
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
   pull_request:
 
 jobs:
@@ -17,8 +18,12 @@ jobs:
         id: cache
         uses: actions/cache@v4
         with:
-          path: ~/.cache/mydeps
+          path: |
+            ~/.cache/mydeps
           key: cache-b1c461d
 
       - name: Report cache status
-        run: echo "Cache hit: ${{ steps.cache.outputs.cache-hit }}"
+        env:
+          CACHE_HIT: ${{ steps.cache.outputs.cache-hit }}
+        run: |
+          echo "Cache hit: $CACHE_HIT"
