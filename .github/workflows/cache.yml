@@ -5,6 +5,8 @@ on:
     branches:
       - main
   pull_request:
+    branches:
+      - main
 
 jobs:
   build:
@@ -14,13 +16,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: prime-cache-b1c461d   # 👈 this is the step name GitHub expects
+      - name: prime-cache-b1c461d
         id: cache
         uses: actions/cache@v4
         with:
-          path: |
-            ~/.cache/mydeps
+          # single-string path is less error-prone in YAML
+          path: ~/.cache/mydeps
           key: cache-b1c461d
 
       - name: Report cache status
-        run: echo "Cache hit: ${{ steps.cache.outputs.cache-hit }}"
+        env:
+          CACHE_HIT: ${{ steps.cache.outputs.cache-hit }}
+        run: |
+          echo "Cache hit: $CACHE_HIT"
