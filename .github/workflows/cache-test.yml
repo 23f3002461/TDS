@@ -1,0 +1,30 @@
+name: Cache Test Workflow
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  cache-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: prime-cache-b1c461d
+        id: cache-step
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/my-dependencies
+          key: cache-b1c461d
+
+      - name: Echo cache result
+        run: echo "Cache hit: ${{ steps.cache-step.outputs.cache-hit }}"
+
+      - name: Populate cache (first run)
+        if: steps.cache-step.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ~/.cache/my-dependencies
+          echo "Cached at $(date)" > ~/.cache/my-dependencies/info.txt
